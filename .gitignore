@@ -1,0 +1,4 @@
+/dist/
+/rsrc_windows_*.syso
+*.exe
+.cortexkit
