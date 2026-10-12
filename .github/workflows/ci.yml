@@ -50,7 +50,10 @@ jobs:
           GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go test -c -o "${RUNNER_TEMP}/windows-tests" ./...
 
       - name: Cross-compile Windows manager
-        run: GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -H=windowsgui" -o /tmp/MetrolistManager.exe .
+        run: |
+          go run github.com/akavel/rsrc@v0.10.2 -arch amd64 -manifest MetrolistManager.exe.manifest -o rsrc_windows_amd64.syso
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -H=windowsgui" -o /tmp/MetrolistManager.exe .
+          rm rsrc_windows_amd64.syso
         
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
